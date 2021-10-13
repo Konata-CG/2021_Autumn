@@ -10,24 +10,24 @@ random.seed(0)
 
 class Neighbor:
     position = ()
-    distance = 0
+    # distance = 0
 
     def __init__(self, cur_pos, neighbor_pos):
         self.position = neighbor_pos
-        self.measure_distance(cur_pos)
+        # self.measure_distance(cur_pos)
 
     # calculate how many rival's chess is between you and your neighbor
-    def measure_distance(self, cur_pos):
-        if self.position[0] == cur_pos[0]:
-            if self.position[1] >= cur_pos[1]:
-                self.distance = self.position[1] - cur_pos[1] - 1
-            else:
-                self.distance = cur_pos[1] - self.position[1] - 1
-        else:
-            if self.position[0] >= cur_pos[0]:
-                self.distance = self.position[0] - cur_pos[0] - 1
-            else:
-                self.distance = cur_pos[0] - self.position[0] - 1
+    # def measure_distance(self, cur_pos):
+    #     if self.position[0] == cur_pos[0]:
+    #         if self.position[1] >= cur_pos[1]:
+    #             self.distance = self.position[1] - cur_pos[1] - 1
+    #         else:
+    #             self.distance = cur_pos[1] - self.position[1] - 1
+    #     else:
+    #         if self.position[0] >= cur_pos[0]:
+    #             self.distance = self.position[0] - cur_pos[0] - 1
+    #         else:
+    #             self.distance = cur_pos[0] - self.position[0] - 1
 
 
 # don't change the class name
@@ -43,6 +43,145 @@ class AI(object):
         # decision
         self.candidate_list = []
 
+    def trace_neighbor(self, chessboard, pos):
+        # check all positions in the same row / column / diagonal
+        # find the nearest position which is in the same color, add it into neighbor list
+        neighbor_list = []
+
+        # column_down
+        target_row = pos[0] + 1
+        target_col = pos[1]
+        pass_enemy_flag = -1
+        while (self.chessboard_size - 1 >= target_row >= 0) and (self.chessboard_size - 1 >= target_col >= 0):
+            if chessboard[target_row][target_col] == COLOR_NONE:
+                break
+            elif chessboard[target_row][target_col] != self.color:
+                target_row = target_row + 1
+                pass_enemy_flag = 1
+            elif chessboard[target_row][target_col] == self.color and pass_enemy_flag == 1:
+                neighbor_list.append((target_row, target_col))
+                break
+            else:
+                break
+
+        # column_up
+        target_row = pos[0] - 1
+        target_col = pos[1]
+        pass_enemy_flag = -1
+        while (self.chessboard_size - 1 >= target_row >= 0) and (self.chessboard_size - 1 >= target_col >= 0):
+            if chessboard[target_row][target_col] == COLOR_NONE:
+                break
+            elif chessboard[target_row][target_col] != self.color:
+                target_row = target_row - 1
+                pass_enemy_flag = 1
+            elif chessboard[target_row][target_col] == self.color and pass_enemy_flag == 1:
+                neighbor_list.append((target_row, target_col))
+                break
+            else:
+                break
+
+        # row_right
+        target_row = pos[0]
+        target_col = pos[1] + 1
+        pass_enemy_flag = -1
+        while (self.chessboard_size - 1 >= target_row >= 0) and (self.chessboard_size - 1 >= target_col >= 0):
+            if chessboard[target_row][target_col] == COLOR_NONE:
+                break
+            elif chessboard[target_row][target_col] != self.color:
+                target_col = target_col + 1
+                pass_enemy_flag = 1
+            elif chessboard[target_row][target_col] == self.color and pass_enemy_flag == 1:
+                neighbor_list.append((target_row, target_col))
+                break
+            else:
+                break
+
+        # row_left
+        target_row = pos[0]
+        target_col = pos[1] - 1
+        pass_enemy_flag = -1
+        while (self.chessboard_size - 1 >= target_row >= 0) and (self.chessboard_size - 1 >= target_col >= 0):
+            if chessboard[target_row][target_col] == COLOR_NONE:
+                break
+            elif chessboard[target_row][target_col] != self.color:
+                target_col = target_col - 1
+                pass_enemy_flag = 1
+            elif chessboard[target_row][target_col] == self.color and pass_enemy_flag == 1:
+                neighbor_list.append((target_row, target_col))
+                break
+            else:
+                break
+
+        # diagonal_right_down
+        target_row = pos[0] + 1
+        target_col = pos[1] + 1
+        pass_enemy_flag = -1
+        while (self.chessboard_size - 1 >= target_row >= 0) and (self.chessboard_size - 1 >= target_col >= 0):
+            if chessboard[target_row][target_col] == COLOR_NONE:
+                break
+            elif chessboard[target_row][target_col] != self.color:
+                target_row = target_row + 1
+                target_col = target_col + 1
+                pass_enemy_flag = 1
+            elif chessboard[target_row][target_col] == self.color and pass_enemy_flag == 1:
+                neighbor_list.append((target_row, target_col))
+                break
+            else:
+                break
+
+        # diagonal_right_up
+        target_row = pos[0] - 1
+        target_col = pos[1] + 1
+        pass_enemy_flag = -1
+        while (self.chessboard_size - 1 >= target_row >= 0) and (self.chessboard_size - 1 >= target_col >= 0):
+            if chessboard[target_row][target_col] == COLOR_NONE:
+                break
+            elif chessboard[target_row][target_col] != self.color:
+                target_row = target_row - 1
+                target_col = target_col + 1
+                pass_enemy_flag = 1
+            elif chessboard[target_row][target_col] == self.color and pass_enemy_flag == 1:
+                neighbor_list.append((target_row, target_col))
+                break
+            else:
+                break
+
+        # diagonal_left_down
+        target_row = pos[0] + 1
+        target_col = pos[1] - 1
+        pass_enemy_flag = -1
+        while (self.chessboard_size - 1 >= target_row >= 0) and (self.chessboard_size - 1 >= target_col >= 0):
+            if chessboard[target_row][target_col] == COLOR_NONE:
+                break
+            elif chessboard[target_row][target_col] != self.color:
+                target_row = target_row + 1
+                target_col = target_col - 1
+                pass_enemy_flag = 1
+            elif chessboard[target_row][target_col] == self.color and pass_enemy_flag == 1:
+                neighbor_list.append((target_row, target_col))
+                break
+            else:
+                break
+
+        # diagonal_right_up
+        target_row = pos[0] - 1
+        target_col = pos[1] - 1
+        pass_enemy_flag = -1
+        while (self.chessboard_size - 1 >= target_row >= 0) and (self.chessboard_size - 1 >= target_col >= 0):
+            if chessboard[target_row][target_col] == COLOR_NONE:
+                break
+            elif chessboard[target_row][target_col] != self.color:
+                target_row = target_row - 1
+                target_col = target_col - 1
+                pass_enemy_flag = 1
+            elif chessboard[target_row][target_col] == self.color and pass_enemy_flag == 1:
+                neighbor_list.append((target_row, target_col))
+                break
+            else:
+                break
+
+        return neighbor_list
+
     # The input is current chessboard.
     def go(self, chessboard):
         # Clear candidate_list, must do this step
@@ -52,6 +191,7 @@ class AI(object):
         # Write your algorithm here
         # Here is the simplest sample:Random decision
         # row : idx[0], column : idx[1]
+        # idx : all empty space in chess board
         idx = np.where(chessboard == COLOR_NONE)
         idx = list(zip(idx[0], idx[1]))
 
@@ -65,123 +205,13 @@ class AI(object):
         # we will choice the last element of the candidate_list as the position you choose
         # If there is no valid position, you must return an empty list.
         start = time.time()
+
         neighbor_dict = {}
         for pos in idx:
-            neighbor_list = []
-            # check all positions in the same row / column / diagonal
-            # find the nearest position which is in the same color, add it into neighbor list
-            # column_down
-            if pos[0] < self.chessboard_size - 1:
-                for row_idx in [pos[0] + 1, self.chessboard_size - 1]:
-                    if chessboard[row_idx][pos[1]] == self.color:
-                        neighbor_list.append(Neighbor(pos, (row_idx, pos[1])))
-                        break
-                    elif chessboard[row_idx][pos[1]] != COLOR_NONE:
-                        continue
-                    else:
-                        break
-            # column_up
-            if pos[0] > 0:
-                for row_idx in [0, pos[0] - 1]:
-                    if chessboard[(pos[0] - 1) - row_idx][pos[1]] == self.color:
-                        neighbor_list.append(Neighbor(pos, ((pos[0] - 1) - row_idx, pos[1])))
-                        break
-                    elif chessboard[(pos[0] - 1) - row_idx][pos[1]] != COLOR_NONE:
-                        continue
-                    else:
-                        break
-            # row_left
-            if pos[1] < self.chessboard_size - 1:
-                for col_idx in [pos[1] + 1, self.chessboard_size - 1]:
-                    if chessboard[pos[0]][col_idx] == self.color:
-                        neighbor_list.append(Neighbor(pos, (pos[0], col_idx)))
-                        break
-                    elif chessboard[pos[0]][col_idx] != COLOR_NONE:
-                        continue
-                    else:
-                        break
-            # row_right
-            if pos[1] > 0:
-                for col_idx in [0, pos[1] - 1]:
-                    if chessboard[pos[0]][(pos[1] - 1) - col_idx] == self.color:
-                        neighbor_list.append(Neighbor(pos, (pos[0], (pos[1] - 1) - col_idx)))
-                        break
-                    elif chessboard[pos[0]][(pos[1] - 1) - col_idx] != COLOR_NONE:
-                        continue
-                    else:
-                        break
-            # diagonal_right_down
-            if pos[1] < self.chessboard_size - 1 and pos[0] < self.chessboard_size - 1:
-                row_idx = pos[0] + 1
-                col_idx = pos[1] + 1
-                while row_idx <= self.chessboard_size - 1 and col_idx <= self.chessboard_size - 1:
-                    if chessboard[row_idx][col_idx] == self.color:
-                        neighbor_list.append(Neighbor(pos, (row_idx, col_idx)))
-                        break
-                    elif chessboard[row_idx][col_idx] != COLOR_NONE:
-                        row_idx = row_idx + 1
-                        col_idx = col_idx + 1
-                        continue
-                    else:
-                        break
-            # diagonal_right_up
-            if pos[1] < self.chessboard_size - 1 and pos[0] > 0:
-                row_idx = pos[0] - 1
-                col_idx = pos[1] + 1
-                while row_idx >= 0 and col_idx <= self.chessboard_size - 1:
-                    if chessboard[row_idx][col_idx] == self.color:
-                        neighbor_list.append(Neighbor(pos, (row_idx, col_idx)))
-                        break
-                    elif chessboard[row_idx][col_idx] != COLOR_NONE:
-                        row_idx = row_idx - 1
-                        col_idx = col_idx + 1
-                        continue
-                    else:
-                        break
-            # diagonal_left_up
-            if pos[1] > 0 and pos[0] > 0:
-                row_idx = pos[0] - 1
-                col_idx = pos[1] - 1
-                while row_idx >= 0 and col_idx >= 0:
-                    if chessboard[row_idx][col_idx] == self.color:
-                        neighbor_list.append(Neighbor(pos, (row_idx, col_idx)))
-                        break
-                    elif chessboard[row_idx][col_idx] != COLOR_NONE:
-                        row_idx = row_idx - 1
-                        col_idx = col_idx - 1
-                        continue
-                    else:
-                        break
-            # diagonal_left_down
-            if pos[1] > 0 and pos[0] < self.chessboard_size - 1:
-                row_idx = pos[0] + 1
-                col_idx = pos[1] - 1
-                while row_idx <= self.chessboard_size - 1 and col_idx >= 0:
-                    if chessboard[row_idx][col_idx] == self.color:
-                        neighbor_list.append(Neighbor(pos, (row_idx, col_idx)))
-                        break
-                    elif chessboard[row_idx][col_idx] != COLOR_NONE:
-                        row_idx = row_idx + 1
-                        col_idx = col_idx - 1
-                        continue
-                    else:
-                        break
-
-            neighbor_list.sort(key=lambda x: x.distance)
-            neighbor_dict[pos] = neighbor_list
+            neighbor_dict[pos] = self.trace_neighbor(chessboard, pos)
 
             # check pos valid
             if len(neighbor_dict[pos]) != 0:
                 self.candidate_list.append(pos)
 
-        pre_candidate = []
-        for candidate_pos in self.candidate_list:
-            if len(neighbor_dict[candidate_pos]) != 0:
-                pre_candidate.append(neighbor_dict[candidate_pos][0])
-        pre_candidate.sort(key=lambda x: x.distance)
-        self.candidate_list.append(pre_candidate[0])
-
         runtime = (time.time() - start)
-
-    # line 170, in go neighbor_dict[pos] = (neighbor_list, neighbor_list[0]) IndexError: list index out of range
-    # TypeError: 'Neighbor' object is not iterable
