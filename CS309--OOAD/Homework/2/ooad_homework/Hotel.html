@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Hotel List</title>
+        <link rel="stylesheet" type="text/css" href="Hotel.css"/>
+        <script type="text/javascript" src="Hotel.js"></script>
+    </head>
+    <body onload="initial()">
+        <table>
+            <caption id="a">
+                <h2>Hotel List</h2>
+            </caption>
+            <tr>
+                <th>Hotel Name</th>
+                <th>City</th>
+                <th>District</th>
+                <th>Date</th>
+                <th>Earliest check-in time</th>
+                <th>price</th>
+                <th>Room Type</th>
+                <th>Operation</th>
+            </tr>
+            <tbody id="tbody" style="display: none">
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td><input type="button" value="Delete" onclick="removeRow(this)"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div>
+            <form name="form_Add_Hotel"> Hotel Name:
+                <label>
+                    <input type="text" name="hotel_name"/>
+                </label>
+                <br/> City:
+                <label>
+                    <input type="radio" name="city" value="GUANG ZHOU" onchange="setDistrict()" /> GUANG ZHOU
+                    <input type="radio" name="city" value="SHEN ZHEN" onchange="setDistrict()" /> SHEN ZHEN
+                </label>
+                <br/> District:
+                <label for="district"></label><select id="district"></select>
+                <br/> Date:
+                <label>
+                    <input type="date" name="date" />
+                </label>
+                <br/> Earliest check-in time:
+                <label>
+                    <input type="time" name="time" />
+                </label>
+                <br/> Price:
+                <label>
+                    <input type="text" name="price"/>
+                </label>
+                <br/> Room Type:
+                <label for="room_type"></label>
+                    <select id="room_type">
+                        <option value="Standard Room"> Standard Room </option>
+                        <option value="King Bed Room"> King Bed Room </option>
+                        <option value="Family Room"> Family Room </option>
+                        <option value="Presidential Suite"> Presidential Suite </option>
+                    </select>
+                <br/>
+                <input type="button" value="Add_Hotel" onclick="onClickAddHotel()"/>
+                <br/>
+            </form>
+        </div>
+    </body>
+</html>

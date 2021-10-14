@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Flight list</title>
+    <link rel="stylesheet" type="text/css" href="table.css"/>
+    <script type="text/javascript" src="table.js"></script>
+</head>
+<body onload="initial()">
+<table>
+    <caption id="a"><h2>Flight List</h2></caption>
+    <tr>
+        <th>Flight No.</th>
+        <th>Airline Company</th>
+        <th>From</th>
+        <th>To</th>
+        <th>Date</th>
+        <th>Departure Time</th>
+        <th>Arrival Time</th>
+        <th></th>
+    </tr>
+    <tbody id="tbody" style="display: none">
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <input type="button" value="Delete" onclick="removeRow(this)">
+        </td>
+    </tr>
+    </tbody>
+</table>
+<div>
+    <form name="form1"> Flight No.:
+        <label>
+            <input type="text" name="flight-no"/>
+        </label>
+        <br/> Airline Company:
+        <label>
+            <input type="text" name="airline-company"/>
+        </label>
+        <br/> From:
+        <label>
+            <input type="text" name="from"/>
+        </label>
+        <br/> To:
+        <label>
+            <input type="text" name="to"/>
+        </label>
+        <br/> Date:
+        <label for="year"></label><select id="year" onchange="setMonth()"></select> year
+        <label for="month"></label><select id="month" onchange="setDay()"></select> month
+        <label for="day"></label><select id="day"></select> day
+        <br/> Departure Time:
+        <label for="dhour"></label><select id="dhour"></select>:
+        <label for="dminute"></label><select id="dminute"></select>
+        <br/> Arrival Time:
+        <label for="ahour"></label><select id="ahour"></select>:
+        <label for="aminute"></label><select id="aminute"></select>
+        <br/>
+        <input type="button" value="Add Flight" onclick="onClickAddFlight()"/>
+        <br/>
+    </form>
+</div>
+</body>
+</html>
+
