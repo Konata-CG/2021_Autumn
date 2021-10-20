@@ -6,8 +6,9 @@
         <link rel="stylesheet" type="text/css" href="Hotel.css"/>
         <script type="text/javascript" src="Hotel.js"></script>
     </head>
-    <body onload="initial()">
-        <table>
+    <body onload="initial()" id="whole_body">
+
+        <table id="hotel list">
             <caption id="a">
                 <h2>Hotel List</h2>
             </caption>
@@ -34,7 +35,14 @@
                 </tr>
             </tbody>
         </table>
-        <div>
+
+        <div id="button">
+            <br/>
+            <button class="button" id="view" style="vertical-align:middle" value="view hotel declaration form" onclick="view_declaration_form()"><span>Add Hotel !</span></button>
+            <br/>
+        </div>
+
+        <div id="hotel_declare_form" style="display: none">
             <form name="form_Add_Hotel"> Hotel Name:
                 <label>
                     <input type="text" name="hotel_name"/>

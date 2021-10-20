@@ -1,7 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="716bb657-6a37-43c4-b0f4-4c2cafd390d6" name="Changes" comment="" />
+    <list default="true" id="716bb657-6a37-43c4-b0f4-4c2cafd390d6" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../../../../CS303--AI/Project/project1/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../CS303--AI/Project/project1/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../../../../CS303--AI/Project/project1/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../../CS303--AI/Project/project1/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hotel.css" beforeDir="false" afterPath="$PROJECT_DIR$/Hotel.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hotel.html" beforeDir="false" afterPath="$PROJECT_DIR$/Hotel.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Hotel.js" beforeDir="false" afterPath="$PROJECT_DIR$/Hotel.js" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -11,8 +18,8 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
-        <option value="CSS File" />
         <option value="JavaScript File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -34,6 +41,11 @@
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\GitHub\repositories\2021_Autumn\CS309--OOAD\Homework\2\ooad_homework" />
+    </key>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -44,10 +56,24 @@
       <updated>1634138448631</updated>
       <workItem from="1634138449776" duration="2212000" />
       <workItem from="1634179212042" duration="9022000" />
+      <workItem from="1634211493031" duration="7972000" />
+      <workItem from="1634462444007" duration="4713000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>

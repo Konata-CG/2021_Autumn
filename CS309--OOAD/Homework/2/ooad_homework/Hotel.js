@@ -1,22 +1,25 @@
 function initial() {
-    // let year = document.getElementById("year");
-    // year.innerHTML = "";
-    // year.options.add(new Option("--", null));
-    // for (let i = 2000; i <= 2020; i++) {
-    //     year.options.add(new Option(i, i));
-    // }
+
+}
+
+function view_declaration_form() {
+    let declaration_form = document.getElementById("hotel_declare_form");
+    if (declaration_form.style.display === "block") {
+        declaration_form.style.display = "none";
+    } else {
+        declaration_form.style.display = "block";
+    }
 }
 
 function onClickAddHotel() {
     let hotel_name = document.forms[0][name="hotel_name"].value;
-    let date = document.forms[0][name="date"].value;
-    let time = document.forms[0][name="time"].value;
+    let city = document.forms[0][name="city"].value;
+    let district = document.getElementById("district").value;
     let room_type = document.getElementById("room_type").value;
+    let date = document.forms[0][name="date"].value;
     let price = document.forms[0][name="price"].value;
-    let hour = time.substring(0,2);
-    let min = time.substring(3,5);
-    alert(hour + " " + min);
-    if (validateInput(hotel_name, date, price)) {
+
+    if (validateInput(hotel_name, city, district, room_type, date, price)) {
         addRow();
     }
 }
@@ -29,48 +32,65 @@ function addRow() {
     }
     let hotel_name = document.forms[0][name="hotel_name"].value;
     let city = document.forms[0][name="city"].value;
-
-
-    let year = document.getElementById("year").value;
-    let month = document.getElementById("month").value;
-    let day = document.getElementById("day").value;
-    let dhour = document.getElementById("dhour").value;
-    let dminute = document.getElementById("dminute").value;
-    let ahour = document.getElementById("ahour").value;
-    let aminute = document.getElementById("aminute").value;
+    let district = document.getElementById("district").value;
+    let date = document.forms[0][name="date"].value;
+    let earliest_check_in_time = document.forms[0][name="time"].value;
+    let price = document.forms[0][name="price"].value;
+    let room_type = document.getElementById("room_type").value;
     let rowCount = bodyObj.rows.length;
     let cellCount = bodyObj.rows[0].cells.length;
-    bodyObj.style.display = ""; // display the tbody
+    bodyObj.style.display = "";
     let newRow = bodyObj.insertRow(rowCount++);
-    newRow.insertCell(0).innerHTML = document.forms[0]["flight-no"].value;
-    newRow.insertCell(1).innerHTML = document.forms[0]["airline-company"].value;
-    newRow.insertCell(2).innerHTML = document.forms[0].from.value;
-    newRow.insertCell(3).innerHTML = document.forms[0].to.value;
-    newRow.insertCell(4).innerHTML = year + "/" + month + "/" + day;
-    newRow.insertCell(5).innerHTML = dhour + ":" + dminute;
-    newRow.insertCell(6).innerHTML = ahour + ":" + aminute;
-    newRow.insertCell(7).innerHTML = bodyObj.rows[0].cells[cellCount -
-    1].innerHTML; // copy the "delete" button
-    bodyObj.rows[0].style.display = "none"; // hide first row
+    newRow.insertCell(0).innerHTML = hotel_name;
+    newRow.insertCell(1).innerHTML = city;
+    newRow.insertCell(2).innerHTML = district;
+    newRow.insertCell(3).innerHTML = date;
+    newRow.insertCell(4).innerHTML = earliest_check_in_time;
+    newRow.insertCell(5).innerHTML = price;
+    newRow.insertCell(6).innerHTML = room_type;
+    newRow.insertCell(7).innerHTML = bodyObj.rows[0].cells[cellCount - 1].innerHTML;
+    bodyObj.rows[0].style.display = "none";
 }
 
-function validateInput(hotel_name, date, price) {
+function validateInput(hotel_name, city, district, room_type, date, price) {
     let hotel_name_regex = new RegExp(/^[A-Za-z\s]+$/);
+    let price_regex = new RegExp(/^\d*$/)
     if(!hotel_name_regex.test(hotel_name)) {
         alert("Input hotel name contains invalid characters !\n(Hotel name can only contains English letters and space)");
         return false;
     }
+    if(!price_regex.test(price)) {
+        alert("Input price contains invalid characters !\n(Price can only contains numbers)");
+        return false;
+    }
+
+    //date check
     let cur_date = new Date();
     let tar_date = new Date(date.substring(0, 4), date.substring(5, 7) - 1, date.substring(8, 10));
     if (tar_date < cur_date) {
         alert("Input date must after today !")
         return false;
     }
-    let price_regex = new RegExp(/^\d*$/)
-    if(!price_regex.test(price)) {
-        alert("Input price contains invalid characters !\n(Price can only contains numbers)");
-        return false;
+
+    //uniqueness check
+    let cur_table = document.getElementById("hotel list");
+    for (let i = 2, rows = cur_table.rows.length; i < rows; i++) {
+        if (cur_table.rows[i].cells[0].innerHTML === hotel_name &&
+            cur_table.rows[i].cells[1].innerHTML === city &&
+            cur_table.rows[i].cells[2].innerHTML === district &&
+            cur_table.rows[i].cells[6].innerHTML === room_type) {
+            alert("Different rows with the same Hotel Name, City, District and Room Type can not be appeared for many times.");
+            return false;
+        }
+        if (cur_table.rows[i].cells[0].innerHTML === hotel_name &&
+            cur_table.rows[i].cells[1].innerHTML === city &&
+            cur_table.rows[i].cells[2].innerHTML === district &&
+            cur_table.rows[i].cells[5].innerHTML === price) {
+            alert("Price should not be same if different rows have the same Hotel Name, City and District, but the Room Type is difference.");
+            return false;
+        }
     }
+
     return true;
 }
 

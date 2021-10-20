@@ -1,0 +1,24 @@
+<%- include("partials/header.ejs") %> 
+
+<div class="container mid">
+    <h1>hi, <%= username === "admin" ? username : "peasant (" + username + ")" %></h1>
+
+    <div class="messages">
+        <p><strong data-bs-toggle="tooltip" title="Jiaxintang Lv29">bili_114514:</strong> Just purchase governor for Jiaran!</p>
+        <p><strong data-bs-toggle="tooltip" title="Jiaxintang Lv11">Diana:</strong> ￥19,998 per month?</p>
+        <p><strong data-bs-toggle="tooltip" title="Jiaxintang Lv29">bili_114514:</strong> It's fine!</p>
+        <p><strong data-bs-toggle="tooltip" title="Jiaxintang Lv2">bili_1919810:</strong> 66666666666</p>
+        <p><strong data-bs-toggle="tooltip" title="Fang Guan">Jiaran:</strong> <%= flag %></p>
+    </div>
+</div>
+
+<a href="/logout"><button class="btn btn-danger">Log out</button></a>
+
+<script>
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+</script>
+
+<%- include("partials/footer.ejs") %> 
