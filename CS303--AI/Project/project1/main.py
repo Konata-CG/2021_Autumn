@@ -43,6 +43,7 @@ class AI(object):
         # decision
         self.candidate_list = []
 
+    # give a position on chessboard, return places can be placed chess
     def trace_neighbor(self, chessboard, pos):
         # check all positions in the same row / column / diagonal
         # find the nearest position which is in the same color, add it into neighbor list
@@ -182,6 +183,14 @@ class AI(object):
 
         return neighbor_list
 
+    def find_candidate(self, neighbor_dict, chessboard, idx):
+        for pos in idx:
+            neighbor_dict[pos] = self.trace_neighbor(chessboard, pos)
+
+            # check pos valid
+            if len(neighbor_dict[pos]) != 0:
+                self.candidate_list.append(pos)
+
     # The input is current chessboard.
     def go(self, chessboard):
         # Clear candidate_list, must do this step
@@ -205,13 +214,9 @@ class AI(object):
         # we will choice the last element of the candidate_list as the position you choose
         # If there is no valid position, you must return an empty list.
         start = time.time()
+        neighbor_dict = {}      # 维护一个字典存放： 位置坐标 -> 附近的邻居列表
 
-        neighbor_dict = {}
-        for pos in idx:
-            neighbor_dict[pos] = self.trace_neighbor(chessboard, pos)
-
-            # check pos valid
-            if len(neighbor_dict[pos]) != 0:
-                self.candidate_list.append(pos)
+        # 遍历棋盘，进行基本的位置搜寻和信息提取
+        self.find_candidate(neighbor_dict, chessboard, idx)
 
         runtime = (time.time() - start)

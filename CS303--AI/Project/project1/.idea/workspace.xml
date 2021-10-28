@@ -20,13 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55197cec-8753-4493-b0a1-85fc7269b514" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/../../../CS315--Computer_Security/lab5/ctf/exploit/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../CS309--OOAD/Homework/2/ooad_homework/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../../CS309--OOAD/Homework/2/ooad_homework/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../CS309--OOAD/Homework/2/ooad_homework/Hotel.css" beforeDir="false" afterPath="$PROJECT_DIR$/../../../CS309--OOAD/Homework/2/ooad_homework/Hotel.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../CS309--OOAD/Homework/2/ooad_homework/Hotel.html" beforeDir="false" afterPath="$PROJECT_DIR$/../../../CS309--OOAD/Homework/2/ooad_homework/Hotel.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../../CS309--OOAD/Homework/2/ooad_homework/Hotel.js" beforeDir="false" afterPath="$PROJECT_DIR$/../../../CS309--OOAD/Homework/2/ooad_homework/Hotel.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +42,7 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
   </component>
   <component name="RunManager">
     <configuration name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
