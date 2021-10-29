@@ -197,7 +197,7 @@ class AI(object):
         neighbor_dict = {}
         candidate_list = []
         for pos in idx:
-            neighbor_dict[pos] = self.trace_neighbor(chessboard, pos, cur_player_color)
+            neighbor_dict[pos] = self.trace_neighbor(chessboard[:], pos, cur_player_color)
             if len(neighbor_dict[pos]) != 0:
                 candidate_list.append(pos)
         return neighbor_dict, candidate_list
@@ -208,7 +208,7 @@ class AI(object):
         _, candidate_list_2 = self.search_candidate(cur_chessboard_state, -self.color)
         return len(candidate_list_1) == 0 and len(candidate_list_2) == 0
 
-    def evaluate(self, cur_state, cur_player):
+    def evaluate(self, cur_state):
 
         def map_weight_sum(cur_board_state):
             value_map = np.array([[-500, 25, -10, -5, -5, -10, 25, -500],
@@ -221,19 +221,88 @@ class AI(object):
                                   [-500, 25, -10, -5, -5, -10, 25, -500]])
             return sum(sum(cur_board_state * value_map)) * self.color
 
-        def motivation_sum(cur_board_state, cur_player_color):
-            movtivation = []
-            valid_board_list = []
-            for i in range(8):
-                for j in range(8):
-                    if cur_board_state[i][j] == 0:
-                        newBoard = cur_board_state.copy()
-                        if place(newBoard, i, j, color):
-                            moves.append((i, j))
-                            valid_board_list.append(newBoard)
-            return moves, valid_board_list
+        def mobility_sum(cur_chessboard_state, cur_player_color):
+            _, candidate_list_1 = self.search_candidate(cur_chessboard_state[:], cur_player_color)
+            return len(candidate_list_1)
 
+        def stability_sum(cur_chessboard_state, cur_player_color):
+            max_length = self.chessboard_size - 1
+            CORNER = 0
+            BORDER = 1
+            INNER = 2
+            stability = [0, 0, 0]
 
+            # 四个角：左上， 右上， 右下， 左下
+            corner_row = [0, 0, max_length, max_length]
+            corner_col = [0, max_length, max_length, 0]
+            # 移动方向：向右， 向下， 向左， 向上
+            inc_1 = [0, 1, 0, -1]
+            inc_2 = [1, 0, -1, 0]
+            # 分别有多少连续的己方子在自己的移动方向上
+            stop = [0, 0, 0, 0]
+            for i in range(4):
+                if cur_chessboard_state[corner_row[i]][corner_col[i]] == cur_player_color:
+                    stop[i] = 1
+                    stability[CORNER] += 1
+                    for j in range(1, max_length):
+                        if cur_chessboard_state[corner_row[i] + inc_1[i] * j][corner_col[i] + inc_2[i] * j] != cur_player_color:
+                            break
+                        else:
+                            stop[i] = j + 1
+                            stability[BORDER] += 1
+                    for j in range(1, max_length - stop[i - 1]):
+                        if cur_chessboard_state[corner_row[i] - inc_1[i - 1] * j][corner_col[i] - inc_2[i - 1] * j] != cur_player_color:
+                            break
+                        else:
+                            stability[BORDER] += 1
+
+            col_full = np.zeros((self.chessboard_size, self.chessboard_size), dtype=int)
+            col_full[:, np.sum(abs(cur_chessboard_state), axis=0) == self.chessboard_size] = True
+
+            row_full = np.zeros((self.chessboard_size, self.chessboard_size), dtype=int)
+            row_full[np.sum(abs(cur_chessboard_state), axis=1) == self.chessboard_size, :] = True
+
+            dig1_full = np.zeros((self.chessboard_size, self.chessboard_size), dtype=int)
+            for i in range(15):
+                dig_sum = 0
+                if i <= max_length:
+                    start_ind_1 = i
+                    start_ind_2 = 0
+                    j_range = i + 1
+                else:
+                    start_ind_1 = max_length
+                    start_ind_2 = i - max_length
+                    j_range = 15 - i
+                for j in range(j_range):
+                    dig_sum += abs(cur_chessboard_state[start_ind_1 - j][start_ind_2 + j])
+                if dig_sum == j_range:
+                    for k in range(j_range):
+                        dig1_full[start_ind_1 - j][start_ind_2 + j] = True
+
+            dig2_full = np.zeros((self.chessboard_size, self.chessboard_size), dtype=int)
+            for i in range(15):
+                dig_sum = 0
+                if i <= 7:
+                    start_ind_1 = i
+                    start_ind_2 = 7
+                    j_range = i + 1
+                else:
+                    start_ind_1 = 7
+                    start_ind_2 = 14 - i
+                    j_range = 15 - i
+                for j in range(j_range):
+                    dig_sum += abs(cur_chessboard_state[start_ind_1 - j][start_ind_2 - j])
+                if dig_sum == j_range:
+                    for k in range(j_range):
+                        dig2_full[start_ind_1 - j][start_ind_2 - j] = True
+            stability[2] = sum(sum(np.logical_and(np.logical_and(np.logical_and(col_full, row_full), dig1_full), dig2_full)))
+            return stability
+
+        my_mobility = mobility_sum(cur_state[:], self.color)
+        enemy_mobility = mobility_sum(cur_state[:], self.color)
+        my_stability = stability_sum(cur_state[:], self.color)
+        value = map_weight_sum(cur_state) + 15 * (my_mobility - enemy_mobility) + (-10) * sum(my_stability)
+        return int(value)
 
     def actions(self, next_state, target_pos, cur_player):
         next_state[target_pos[0]][target_pos[1]] = cur_player
@@ -402,7 +471,7 @@ class AI(object):
         neighbor_dict, self.candidate_list = self.search_candidate(chessboard, self.color)
         target_depth = 4
         runtime = (time.time() - start)
-        while runtime < self.time_out / 3:
+        while runtime < self.time_out / 4:
             _, move = self.alpha_beta(chessboard, target_depth)
             target_depth = target_depth + 1
             if move is not None:
