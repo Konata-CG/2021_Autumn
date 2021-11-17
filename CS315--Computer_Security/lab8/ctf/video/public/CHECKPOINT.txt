@@ -1,0 +1,4 @@
+Checkpointed!
+the first part of flag is:
+COMPFEST13{aha_gotcha_
+Submit this to your writeup, and you can get 2 points.
